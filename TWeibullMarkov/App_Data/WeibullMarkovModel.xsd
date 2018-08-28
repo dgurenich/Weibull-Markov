@@ -1,0 +1,160 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" id="ElementConversionRules" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:annotation>
+    <xs:appinfo>
+      TWeibullMarkovLibrary
+    </xs:appinfo>
+    <xs:documentation>
+      Weibull-Markov Decision Model
+      Gurenich Consulting, LLC
+    </xs:documentation>
+  </xs:annotation>
+
+  <!-- Ordinal number type -->
+  <xs:simpleType name="OrdinalNumberType">
+    <xs:restriction base="xs:unsignedInt">
+      <xs:minInclusive value="1"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <!-- Description type-->
+  <xs:simpleType name="DescriptionType">
+    <xs:restriction base="xs:string">
+      <xs:maxLength value="200"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <!-- 01 Type -->
+  <xs:simpleType name="Bool01Type">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="0"/>
+      <xs:enumeration value="1"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <!-- Non-negative number-->
+  <xs:simpleType name="NonNegativeRealType">
+    <xs:restriction base="xs:double">
+      <xs:minInclusive value="0.0"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <!-- Markov policy recommendation -->
+  <xs:complexType name="RecommendationType">
+    <xs:attribute name="age-year" type="OrdinalNumberType"/>
+    <xs:attribute name="action" type="OrdinalNumberType"/>
+    <!-- SIC! In principle benefit can be negative, that's why it is just a double.-->
+    <xs:attribute name="unit-benefit" type="xs:double"/>
+  </xs:complexType>
+
+  <!-- Markov policy -->
+  <xs:complexType name="PolicyType">
+    <xs:sequence>
+      <xs:element name="Recommendation " type="RecommendationType" minOccurs="1" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <!-- Probability -->
+  <xs:simpleType name="ProbabilityType">
+    <xs:restriction base="xs:double">
+      <xs:minInclusive value="0.0" />
+      <xs:maxInclusive value="1.0" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <!-- Action's target condition state-->
+  <xs:complexType name="TargetStateType">
+    <xs:attribute name="number" type="OrdinalNumberType"/>
+    <xs:attribute name="probability" type="ProbabilityType"/>
+  </xs:complexType>
+
+  <xs:complexType name="TransitionProbabilitiesType">
+    <xs:sequence>
+      <xs:element name="Target-State" type="TargetStateType" minOccurs="1" maxOccurs="unbounded" />
+    </xs:sequence>
+  </xs:complexType>
+
+  <!-- Treatment action -->
+  <xs:complexType name="ActionType">
+    <xs:sequence>
+      <xs:element name="Transition-Probabilities" type="TransitionProbabilitiesType" minOccurs="0" maxOccurs="1"/>
+    </xs:sequence>
+    <xs:attribute name="number" type="OrdinalNumberType"/>
+    <xs:attribute name="description" type="DescriptionType" use="optional"/>
+    <xs:attribute name="applicability" type="Bool01Type" />
+    <xs:attribute name="num-target-states" type="OrdinalNumberType" />
+    <xs:attribute name="unit-cost" type="NonNegativeRealType" />
+  </xs:complexType>
+
+  <xs:complexType name="ActionCollectionType">
+    <xs:sequence>
+      <xs:element name="Action" type="ActionType" minOccurs="1" maxOccurs="unbounded" />
+    </xs:sequence>
+  </xs:complexType>
+
+
+  <!-- Condition state-->
+  <xs:complexType name="ConditionStateType">
+    <xs:sequence minOccurs="0" maxOccurs="1">
+      <xs:element name="Actions" type="ActionCollectionType" minOccurs="0" maxOccurs="1" />
+      <xs:element name="Policy" type="PolicyType" minOccurs="0" maxOccurs="1" />
+    </xs:sequence>
+    <xs:attribute name="number" type="OrdinalNumberType"/>
+    <xs:attribute name="eta" type="NonNegativeRealType"/>
+    <xs:attribute name="beta" type="NonNegativeRealType"/>
+    <xs:attribute name="dn-cost" type="xs:double" use="optional"/>
+    <xs:attribute name="t" type="OrdinalNumberType" use="optional" />
+    <xs:attribute name="f" type="xs:double" use="optional"/>
+    <xs:attribute name="dfdt" type="xs:double" use="optional"/>
+    <xs:attribute name="t50" type="NonNegativeRealType" use="optional"/>
+    <xs:attribute name="t9x" type="NonNegativeRealType" use="optional"/>
+    <xs:attribute name="x" type="xs:string" use="optional"/>
+  </xs:complexType>
+
+  <xs:complexType name="ConditionStateCollectionType">
+    <xs:sequence>
+      <xs:element name="Condition-State" type="ConditionStateType" minOccurs="1" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <!-- Keys -->
+
+  <xs:complexType name="KeyType">
+    <xs:attribute name="number" type="OrdinalNumberType"/>
+    <xs:attribute name ="value" type="xs:string"/>
+  </xs:complexType>
+
+  <xs:complexType name="KeyCollectionType">
+    <xs:sequence>
+      <xs:element name="Key" type="KeyType" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <!-- Model -->
+  <xs:complexType name="WeibullMarkovModelType">
+    <xs:sequence>
+      <xs:element name="Keys" type="KeyCollectionType" minOccurs="0" maxOccurs="1"/>
+      <xs:element name="Condition-States" type="ConditionStateCollectionType" minOccurs="1" maxOccurs="1"/>
+    </xs:sequence>
+    <xs:attribute name="version" type="xs:string" />
+    <xs:attribute name="num-states" type="OrdinalNumberType"/>
+    <xs:attribute name="num-actions" type="OrdinalNumberType"/>
+    <xs:attribute name="num-keys" type="OrdinalNumberType" use="optional" />
+    <xs:attribute name="fcost-estimate" type="Bool01Type" />
+    <xs:attribute name="fcost-value" type="NonNegativeRealType" use="optional"/>
+    <xs:attribute name="fcost-override" type="Bool01Type" use="optional"/>
+    <xs:attribute name="fcost-policy" type="NonNegativeRealType" use="optional"/>
+    <xs:attribute name="disc-rate-pct" type="NonNegativeRealType"/>
+  </xs:complexType>
+
+ 
+  <xs:complexType name="WeibullMarkovModelCollectionType">
+    <xs:sequence>
+      <xs:element name="WEIBULL-MARKOV-MODEL" type="WeibullMarkovModelType" minOccurs="1" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:element name="WEIBULL-MARKOV-MODEL" type="WeibullMarkovModelType"/>
+  
+</xs:schema>
+

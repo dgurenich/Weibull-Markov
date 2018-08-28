@@ -1,0 +1,67 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--Created with TWeibullMarkov package (c) Gurenich Consulting, 2012-2013-->
+<WEIBULL-MARKOV-MODEL version="1.0" num-states="4" num-actions="3" fcost-estimate="1" disc-rate-pct="4.5" xsi:noNamespaceSchemaLocation="GCWeibullMarkovModel.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <Condition-States>
+    <Condition-State number="1" eta="11.4356950005861" beta="2.73202084564462" dn-cost="0.00" t50="10" t9x="20" x="1" t="25" f="0.59102900735136" dfdt="0.0258479950615917" />
+    <Condition-State number="2" eta="10.5537056913503" beta="2.30145829225161" dn-cost="0.00" t50="9" t9x="17" x="5" t="25" f="0.479298599979996" dfdt="0.0180495974465676">
+      <Actions>
+        <Action number="1" applicability="1" num-target-states="4" unit-cost="999999">
+          <Transition-Probabilities>
+            <Target-State number="1" probability="0.9" />
+            <Target-State number="2" probability="0.1" />
+            <Target-State number="3" probability="0" />
+            <Target-State number="4" probability="0" />
+          </Transition-Probabilities>
+        </Action>
+        <Action number="2" applicability="1" num-target-states="4" unit-cost="500">
+          <Transition-Probabilities>
+            <Target-State number="1" probability="1" />
+            <Target-State number="2" probability="0" />
+            <Target-State number="3" probability="0" />
+            <Target-State number="4" probability="0" />
+          </Transition-Probabilities>
+        </Action>
+      </Actions>
+    </Condition-State>
+    <Condition-State number="3" eta="9.490448879927" beta="2.14530288764505" dn-cost="0.00" t50="8" t9x="14" x="10" t="25" f="0.488179853172022" dfdt="0.0160249378321456">
+      <Actions>
+        <Action number="1" applicability="1" num-target-states="4" unit-cost="999999">
+          <Transition-Probabilities>
+            <Target-State number="1" probability="0.8" />
+            <Target-State number="2" probability="0.1" />
+            <Target-State number="3" probability="0.1" />
+            <Target-State number="4" probability="0" />
+          </Transition-Probabilities>
+        </Action>
+        <Action number="2" applicability="1" num-target-states="4" unit-cost="500">
+          <Transition-Probabilities>
+            <Target-State number="1" probability="1" />
+            <Target-State number="2" probability="0" />
+            <Target-State number="3" probability="0" />
+            <Target-State number="4" probability="0" />
+          </Transition-Probabilities>
+        </Action>
+      </Actions>
+    </Condition-State>
+    <Condition-State number="4" eta="7.50029581248086" beta="5.30929513993237" dn-cost="0.00" t50="7" t9x="10" x="1" t="15" f="0.999994757968809" dfdt="1.89173366772228e-05">
+      <Actions>
+        <Action number="1" applicability="1" num-target-states="4" unit-cost="999999">
+          <Transition-Probabilities>
+            <Target-State number="1" probability="0.7" />
+            <Target-State number="2" probability="0.1" />
+            <Target-State number="3" probability="0.1" />
+            <Target-State number="4" probability="0.1" />
+          </Transition-Probabilities>
+        </Action>
+        <Action number="2" applicability="1" num-target-states="4" unit-cost="500">
+          <Transition-Probabilities>
+            <Target-State number="1" probability="1" />
+            <Target-State number="2" probability="0" />
+            <Target-State number="3" probability="0" />
+            <Target-State number="4" probability="0" />
+          </Transition-Probabilities>
+        </Action>
+      </Actions>
+    </Condition-State>
+  </Condition-States>
+</WEIBULL-MARKOV-MODEL>
